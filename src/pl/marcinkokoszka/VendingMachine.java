@@ -100,9 +100,11 @@ public class VendingMachine
 
     public VMOutput getItem(int position){
         if (isItemAvailable(position) && isEnoughInserted(position)) {
-            decreaseItemQty(position);
+            ArrayList<Double> change = giveChange(position);
+            if (change == null) return new VMOutput();
             VMOutput vmo = new VMOutput(items.get(position).newSingleInstance());
-            vmo.setChange(giveChange(position));
+            vmo.setChange(change);
+            decreaseItemQty(position);
             return vmo;
         }
         return new VMOutput();
@@ -111,7 +113,8 @@ public class VendingMachine
     private ArrayList<Double> giveChange(int position){
         ArrayList<Double> coinsToReturn;
         coinsToReturn = new ArrayList<>();
-        double sumToReturn = insertedChangeSum() - items.get(position).getPrice();
+        double totalSumToReturn = insertedChangeSum() - items.get(position).getPrice();
+        double sumToReturn = totalSumToReturn;
 
         while(0.25 <= sumToReturn && isCoinAvailable(0.25)){
             decreaseChangeQty(0.25);
@@ -133,6 +136,7 @@ public class VendingMachine
             sumToReturn -= 0.05;
             sumToReturn = Math.floor(sumToReturn * 1000.0 + 0.5) / 1000.0;
         }
+        if (Math.abs(doubleArrayListSum(coinsToReturn) - totalSumToReturn) >= 0.01) return null;
         moveInsertedCoinsToChange();
         return coinsToReturn;
     }
@@ -169,6 +173,13 @@ public class VendingMachine
             sum = Math.floor(sum * 1000.0 + 0.5) / 1000.0;
             //it.remove(); // avoids a ConcurrentModificationException
         }
+        return sum;
+    }
+
+    private double doubleArrayListSum(ArrayList<Double> al){
+        double sum = 0;
+        for(Double d : al)
+            sum += d;
         return sum;
     }
 }

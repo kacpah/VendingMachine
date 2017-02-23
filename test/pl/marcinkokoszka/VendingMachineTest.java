@@ -24,31 +24,31 @@ public class VendingMachineTest {
     }
 
     @Test
-    public void setNickelsCorrectly(){
+    public void setNickels_whenNickelsEmpty(){
         vm.setNickels(15);
         assertEquals(15, (long) vm.getChange().get(0.05));
     }
 
     @Test
-    public void setDimesCorrectly(){
+    public void setDimes_whenDimesEmpty(){
         vm.setDimes(2);
         assertEquals(2, (long) vm.getChange().get(0.10));
     }
 
     @Test
-    public void setQuartersCorrectly(){
+    public void setQuarters_whenQuartersEmpty(){
         vm.setQuarters(34);
         assertEquals(34, (long) vm.getChange().get(0.25));
     }
 
     @Test
-    public void SetItem_OnPosition0Correctly(){
+    public void SetItem_OnPosition0(){
         vm.setItem(0, 5);
         assertEquals(5, (long) vm.getItems().get(0).getQty());
     }
 
     @Test
-    public void SetItem_OnPosition1Correctly(){
+    public void SetItem_OnPosition1(){
         vm.setItem(1, 7);
         assertEquals(7, (long) vm.getItems().get(1).getQty());
     }
@@ -64,7 +64,7 @@ public class VendingMachineTest {
     }
 
     @Test
-    public void returnChange_ClearsInsertedChangeCorrectly(){
+    public void returnChange_ClearsInsertedChange(){
         vm.returnChange();
         assertEquals(0, (long) vm.getInsertedChange().get(0.05));
         assertEquals(0, (long) vm.getInsertedChange().get(0.10));
@@ -73,28 +73,28 @@ public class VendingMachineTest {
     }
 
     @Test
-    public void insertNickelWorks(){
+    public void insertNickel_whenInsertedChangeEmpty(){
         vm.returnChange();
         vm.insertNickel();
         assertEquals(1, (long) vm.getInsertedChange().get(0.05));
     }
 
     @Test
-    public void insertDimeWorks(){
+    public void insertDime_whenInsertedChangeEmpty(){
         vm.returnChange();
         vm.insertDime();
         assertEquals(1, (long) vm.getInsertedChange().get(0.10));
     }
 
     @Test
-    public void insertQuarterWorks(){
+    public void insertQuarter_whenInsertedChangeEmpty(){
         vm.returnChange();
         vm.insertQuarter();
         assertEquals(1, (long) vm.getInsertedChange().get(0.25));
     }
 
     @Test
-    public void insertDollarWorks(){
+    public void insertDollar_whenInsertedChangeEmpty(){
         vm.returnChange();
         vm.insertDollar();
         assertEquals(1, (long) vm.getInsertedChange().get(1.0));
